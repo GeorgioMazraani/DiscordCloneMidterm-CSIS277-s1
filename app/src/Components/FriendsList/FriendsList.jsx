@@ -26,6 +26,7 @@ import WumpusPending from '../Assets/pending.png';
 import WumpusOnline from '../Assets/online.webp';
 import WumpusBlocked from '../Assets/blocked.png';
 import UserService from '../../Services/UserService';
+import defaultAv from '../Assets/default.jpg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -259,10 +260,11 @@ const FriendsList = ({ onMessageClick, userId, currentUsername }) => {
                         <div key={friend.id} className="friend-entry">
                             <div className="friend-avatar">
                                 <img
-                                    src={friend.avatar || '/default-avatar.png'}
+                                    src={friend.avatar ? friend.avatar : defaultAv}
                                     alt={`${friend.username}'s Avatar`}
                                     className="avatar-image"
                                 />
+
                             </div>
                             <div className="friend-info">
                                 <span className="friend-username">{friend.username}</span>

@@ -24,7 +24,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './SideBar.css';
 import { FaChevronDown, FaPlus, FaUserPlus, FaPen, FaMicrophoneSlash, FaHeadphonesAlt, FaSignOutAlt } from 'react-icons/fa';
 import { FaEllipsisV } from 'react-icons/fa';
-
+import defaultAv from '../Assets/default.jpg'
+import defaultLogo from '../Assets/logo.jpeg'
 import UserProfile from '../UserProfile/UserProfile';
 import logo from '../Assets/logo.jpeg';
 import ServerModal from '../ServerModal/ServerModal';
@@ -177,7 +178,7 @@ const SideBar = ({ onFriendClick, onShowFriendsList, onSettingsClick, userId }) 
         setCurrentServerImage(
             server.icon
                 ? `data:image/jpeg;base64,${Buffer.from(server.icon).toString('base64')}`
-                : '/default-avatar.png'
+                : defaultLogo
         );
         setIsEditServerModalOpen(true);
     };
@@ -270,7 +271,7 @@ const SideBar = ({ onFriendClick, onShowFriendsList, onSettingsClick, userId }) 
                 {servers.map((server) => {
                     const iconSrc = server.icon
                         ? `data:image/jpeg;base64,${Buffer.from(server.icon).toString('base64')}`
-                        : '/default-avatar.png';
+                        : defaultLogo;
 
                     return (
                         <div key={server.id} className="server-wrapper" onClick={() => handleServerClick(server.id)}>
@@ -405,14 +406,14 @@ const SideBar = ({ onFriendClick, onShowFriendsList, onSettingsClick, userId }) 
 
                                     const avatarBase64 = friend.avatar && friend.avatar.data
                                         ? `data:image/jpeg;base64,${Buffer.from(friend.avatar.data).toString('base64')}`
-                                        : '/default-avatar.png';
+                                        : defaultAv;
 
                                     return (
                                         <div key={dm.id} className="dm-entry">
                                             <div className="dm-info" onClick={() => handleDirectMessageClick(dm)}>
                                                 <div className="dm-avatar">
                                                     <img
-                                                        src={avatarBase64}
+                                                        src={avatarBase64 ? avatarBase64 : defaultAv}
                                                         className="avatar-image"
                                                         alt={`${friend.username}'s Avatar`}
                                                     />

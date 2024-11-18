@@ -24,6 +24,7 @@ import './FriendChat.css';
 import socket from '../../Utils/socket';
 import UserService from '../../Services/UserService';
 import DirectMessageService from '../../Services/DirectMessageService';
+import defaultAv from '../Assets/default.jpg'
 import { FaTrash } from "react-icons/fa6";
 const FriendChat = ({ friend, userId, dmId }) => {
     const [messages, setMessages] = useState([]);
@@ -35,7 +36,11 @@ const FriendChat = ({ friend, userId, dmId }) => {
         const fetchFriendDetails = async () => {
             try {
                 const response = await UserService.getUserById(friend.id);
-                setFriendAvatar(response.data.user.avatar);
+                if (response.data.user.avatar) {
+                    setFriendAvatar(response.data.user.avatar);
+                } else {
+                    setFriendAvatar(defaultAv);
+                }
             } catch (error) {
                 console.error('Error fetching friend details:', error);
             }
