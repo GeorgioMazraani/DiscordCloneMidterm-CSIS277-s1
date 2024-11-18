@@ -1,0 +1,547 @@
+/* src/Components/Sidebar/SideBar.css */
+.sidebar {
+    display: flex;
+    height: 100vh;
+    background-color: #2f3136;
+    color: #ffffff;
+}
+
+.server-column {
+    width: 72px;
+    background-color: #202225;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.content-column {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex-grow: 1;
+    background-color: #2b2d31;
+    justify-content: space-between;
+}
+
+.user-profile {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #202225;
+}
+
+
+/* Server Icon */
+.server-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #444444;
+    color: #3ba55d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.server-icon:hover {
+    background-color: #5865f2;
+    transform: scale(1.1);
+}
+
+.discord-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 25%;
+    transition: transform 0.3s ease;
+}
+
+.discord-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Navigation Items */
+.nav-items {
+    margin-bottom: 20px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    background: none;
+    color: #b9bbbe;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    text-align: left;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-item:hover {
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+/* Direct Messages Section */
+.direct-messages h3 {
+    font-size: 14px;
+    color: #72767d;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.add-friend {
+    background: none;
+    color: #b9bbbe;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.add-friend:hover {
+    color: #3ba55d;
+    transform: scale(1.1);
+}
+
+.dm-entry {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.dm-entry:hover {
+    background-color: #40444b;
+}
+
+.dm-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: #4f545c;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.dm-username {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Enhanced Friends Button */
+.enhanced-nav-item {
+    background-color: #3ba55d;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enhanced-nav-item:hover {
+    background-color: #4cbf6b;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* User Profile at the Bottom */
+.user-profile {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #202225;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #2f3136;
+    border-radius: 10px 0 0 10px;
+}
+
+/* src/Components/Sidebar.css */
+
+.dm-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Adjusts spacing between elements */
+    padding: 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dm-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.dm-entry:hover {
+    background-color: #40444b;
+}
+
+.dm-avatar {
+    width: 32px;
+    height: 32px;
+    background-color: #4f545c;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.dm-username {
+    color: #ffffff;
+}
+
+.dm-delete {
+    background: none;
+    border: none;
+    color: #b9bbbe;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+.dm-delete:hover {
+    color: #ff4e5b;
+    /* Changes color on hover for a delete indication */
+}
+
+/* Sidebar.css */
+
+/* Tooltip styling with arrow */
+.server-icon-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tooltip {
+    visibility: hidden;
+    background-color: #18191c;
+    color: #ffffff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 00;
+    position: absolute;
+    left: 125%;
+    white-space: nowrap;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip arrow styling */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    /* Position arrow on the left side of the tooltip */
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #18191c transparent transparent;
+}
+
+/* Display tooltip on hover */
+.server-icon-wrapper:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Server icon styling */
+.server-icon--custom {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    background-color: #5865f2;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.server-icon--custom:hover {
+    transform: scale(1.1);
+    background-color: #4e5bbd;
+}
+
+.server-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.server-icon {
+    padding: 10px;
+    text-align: center;
+}
+
+.server-name {
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    color: #dcddde;
+    position: relative;
+}
+
+.server-name:hover {
+    background-color: #36393f;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #2f3136;
+    width: 200px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 8px 0;
+    z-index: 10;
+}
+
+.dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 15px;
+    background-color: transparent;
+    color: #b9bbbe;
+    font-size: 14px;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+    background-color: #40444b;
+    color: #ffffff;
+}
+
+.category-title {
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 12px;
+    color: #72767d;
+    font-weight: bold;
+}
+
+.channel-item {
+    padding: 8px 10px;
+    margin-left: 10px;
+    color: #b9bbbe;
+    cursor: pointer;
+}
+
+.channel-item:hover {
+    background-color: #4f545c;
+    color: #ffffff;
+    border-radius: 4px;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #2f3136;
+    width: 180px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 8px 0;
+    z-index: 10;
+}
+
+.dropdown-menu button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 15px;
+    background-color: transparent;
+    color: #b9bbbe;
+    font-size: 14px;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-menu button:hover {
+    background-color: #40444b;
+    color: #ffffff;
+}
+
+.dropdown-menu .menu-icon {
+    margin-right: 8px;
+    color: #b9bbbe;
+    font-size: 16px;
+}
+
+/* Arrow Icon */
+.dropdown-arrow {
+    margin-left: 8px;
+    font-size: 14px;
+    color: #b9bbbe;
+}
+
+/* Channel Header Icons */
+.channel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.add-channel-icon {
+    display: inline-flex;
+    align-items: center;
+    color: #b9bbbe;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: color 0.3s;
+    position: relative;
+}
+
+/* Tooltip for the + Icon */
+.add-channel-icon::after {
+    content: attr(title);
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    background-color: #18191c;
+    color: #ffffff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    transition: visibility 0.2s, opacity 0.2s;
+    z-index: 10;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-channel-icon:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Voice Channel Status */
+.voice-channel-status {
+    background-color: #202225;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: #43b581;
+    font-size: 12px;
+}
+
+.voice-channel-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+    color: #43b581;
+}
+
+.voice-channel-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    color: #b9bbbe;
+    cursor: pointer;
+    font-size: 20px;
+    transition: color 0.2s ease;
+}
+
+.icon:hover {
+    color: #ffffff;
+}
+
+.disconnect-icon {
+    color: #f04747;
+}
+
+.disconnect-icon:hover {
+    color: #ff5c5c;
+}
+
+.dm-avatar img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.menu-icon {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.channel-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    margin-left: 10px;
+    color: #b9bbbe;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.channel-item:hover {
+    background-color: #4f545c;
+    color: #ffffff;
+}
+
+.channel-item .nav-item {
+    flex-grow: 1;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+.channel-item .menu-icon {
+    color: #b9bbbe;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.channel-item .menu-icon:hover {
+    color: #ffffff;
+}

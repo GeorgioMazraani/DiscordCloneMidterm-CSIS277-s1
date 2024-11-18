@@ -1,0 +1,116 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #2f3136;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #b9bbbe;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    background-color: #40444b;
+    color: #ffffff;
+}
+
+.friend-list {
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #2b2d31;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #36393f;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.friend-item:hover,
+.friend-item.selected {
+    background-color: #4b4f58;
+}
+
+.friend-avatar {
+    width: 32px;
+    height: 32px;
+    background-color: #4f545c;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.friend-name {
+    flex-grow: 1;
+    color: #ffffff;
+}
+
+.create-dm-btn {
+    background-color: #5865f2;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.create-dm-btn:disabled {
+    background-color: #3a3d42;
+    cursor: not-allowed;
+}
+
+.create-dm-btn:hover:enabled {
+    background-color: #6873f5;
+}
+
+.close-btn {
+    background: none;
+    color: #b9bbbe;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    text-decoration: underline;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #ffffff;
+}

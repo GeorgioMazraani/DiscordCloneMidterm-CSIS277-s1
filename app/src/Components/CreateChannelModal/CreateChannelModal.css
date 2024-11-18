@@ -1,0 +1,153 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #2f3136;
+    color: #dcddde;
+    width: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #202225;
+    border-bottom: 1px solid #292b2f;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.close-icon {
+    cursor: pointer;
+    color: #72767d;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.channel-type {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.channel-option {
+    flex: 1;
+    background-color: #36393f;
+    border: 1px solid #36393f;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.channel-option.selected {
+    border-color: #5865f2;
+    background-color: #40444b;
+}
+
+.channel-option:hover {
+    background-color: #40444b;
+}
+
+.channel-option span {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.channel-option p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #b9bbbe;
+}
+
+.channel-name-input {
+    display: flex;
+    align-items: center;
+    background-color: #40444b;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.channel-name-input input {
+    background-color: transparent;
+    border: none;
+    color: #dcddde;
+    margin-left: 10px;
+    flex: 1;
+    outline: none;
+}
+
+.private-channel {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.private-channel label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #b9bbbe;
+}
+
+.private-channel input[type="checkbox"] {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.private-channel-note {
+    font-size: 12px;
+    color: #72767d;
+    margin-top: 8px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #202225;
+    border-top: 1px solid #292b2f;
+}
+
+.cancel-button,
+.create-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: #72767d;
+    color: #ffffff;
+}
+
+.create-button {
+    background-color: #5865f2;
+    color: #ffffff;
+}
+
+.create-button:hover {
+    background-color: #4752c4;
+}

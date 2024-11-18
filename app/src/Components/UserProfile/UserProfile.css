@@ -1,0 +1,144 @@
+.user-profile {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #2b2d31;
+    width: 100%;
+    border-top: none;
+    border-radius: 0;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+.user-profile:hover {
+    background-color: #2e3136;
+}
+
+.user-avatar {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background-color: #4f545c;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avatar-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.status-overlay.invisible {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #747f8d;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #2b2d31;
+}
+
+.username {
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.username:hover {
+    text-decoration: underline;
+}
+
+.status-text {
+    color: #b9bbbe;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.status-icon {
+    margin-right: 4px;
+    font-size: 0.85em;
+}
+
+.status-icon.online {
+    color: #3ba55d;
+}
+
+.status-icon.idle {
+    color: #faa61a;
+}
+
+.status-icon.dnd {
+    color: #f04747;
+}
+
+.status-icon.invisible {
+    color: #747f8d;
+}
+
+.status-menu-container {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+}
+
+.settings-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-icons .icon {
+    background: none;
+    border: none;
+    color: #b9bbbe;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.settings-icons .icon:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.icon.inactive {
+    color: #72767d;
+}
+
+.status-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2.5px solid #2b2d31;
+}
+
+.status-overlay.online {
+    color: #3ba55d;
+}
+
+.status-overlay.idle {
+    color: #faa61a;
+}
+
+.status-overlay.dnd {
+    color: #f04747;
+}
+
+.status-overlay.invisible {
+    color: #747f8d;
+}

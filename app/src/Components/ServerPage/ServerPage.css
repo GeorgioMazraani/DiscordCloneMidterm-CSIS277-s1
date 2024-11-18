@@ -1,0 +1,324 @@
+.server-page {
+    display: flex;
+    height: 100vh;
+    color: #dcddde;
+    background-color: #36393f;
+}
+
+.server-sidebar {
+    width: 240px;
+    background-color: #2f3136;
+    padding: 10px;
+    color: #fff;
+}
+
+.server-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.channel-category {
+    margin-bottom: 10px;
+}
+
+.category-title {
+    font-size: 12px;
+    color: #72767d;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.channel {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    color: #b9bbbe;
+    cursor: pointer;
+}
+
+.channel.active {
+    color: #ffffff;
+    background-color: #4f545c;
+    border-radius: 4px;
+}
+
+.server-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #dcddde;
+    background-color: #36393f;
+}
+
+.welcome-section {
+    text-align: center;
+    color: #ffffff;
+    max-width: 500px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.welcome-section h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.welcome-section p {
+    font-size: 14px;
+    color: #b9bbbe;
+    max-width: 400px;
+    margin: 0 auto 20px;
+}
+
+.welcome-section a {
+    color: #7289da;
+    text-decoration: none;
+}
+
+.welcome-section a:hover {
+    text-decoration: underline;
+}
+
+.welcome-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.welcome-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #2f3136;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: #dcddde;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.welcome-action:hover {
+    background-color: #40444b;
+}
+
+.checkmark-icon {
+    color: #43b581;
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.chat-section {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+}
+
+.message-input-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-top: 1px solid #2f3136;
+    width: 100%;
+}
+
+.message-input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #2f3136;
+    border-radius: 5px;
+    background-color: #40444b;
+    color: white;
+}
+
+.message-input-container button {
+    background-color: #5865f2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.message-input-container button:hover {
+    background-color: #4752c4;
+}
+
+.message-input-container.highlight {
+    border: 2px solid #5865f2;
+    border-radius: 8px;
+}
+
+
+
+.message-info {
+    display: flex;
+    align-items: flex-start;
+}
+
+.message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #2f3136;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.message:hover {
+    background-color: #40444b;
+}
+
+.message-info {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.message-options {
+    display: flex;
+    gap: 8px;
+    visibility: hidden;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.message:hover .message-options {
+    visibility: visible;
+}
+
+.icon {
+    cursor: pointer;
+    color: #b9bbbe;
+    transition: color 0.2s ease;
+}
+
+.icon:hover {
+    color: #ffffff;
+}
+
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.author {
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 8px;
+}
+
+.date {
+    font-size: 12px;
+    color: #72767d;
+}
+
+.content {
+    color: #dcddde;
+    margin-top: 4px;
+}
+
+.message-options {
+    display: flex;
+    gap: 8px;
+    visibility: hidden;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.message:hover .message-options {
+    visibility: visible;
+}
+
+.icon {
+    cursor: pointer;
+    color: #b9bbbe;
+    transition: color 0.2s ease;
+}
+
+.icon:hover {
+    color: #ffffff;
+}
+
+.edit-container {
+    position: relative;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #40444b;
+    color: white;
+    outline: none;
+}
+
+.edit-controls {
+    font-size: 12px;
+    color: #72767d;
+    margin-top: 5px;
+}
+
+.edit-controls span {
+    cursor: pointer;
+    color: #5865f2;
+}
+
+.edit-controls span:hover {
+    text-decoration: underline;
+}
+
+.message-input-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-top: 1px solid #2f3136;
+}
+
+.message-input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #2f3136;
+    border-radius: 5px;
+    background-color: #40444b;
+    color: white;
+}
+
+.message-input-container button {
+    background-color: #5865f2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.message-input-container button:hover {
+    background-color: #4752c4;
+}
+
+.checkmark-icon {
+    color: #4CAF50;
+    margin-left: 8px;
+}

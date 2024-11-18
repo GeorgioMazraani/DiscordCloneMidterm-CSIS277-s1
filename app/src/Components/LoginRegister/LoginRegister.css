@@ -1,0 +1,152 @@
+.wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    max-width: 100%;
+    height: 450px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: height 0.3s ease;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.wrapper .form-box {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: absolute;
+    transition: transform 0.3s ease;
+}
+
+.wrapper .form-box.login {
+    transform: translateX(0);
+}
+
+.wrapper.active .form-box.login {
+    transform: translateX(-100%);
+}
+
+.wrapper .form-box.register {
+    transform: translateX(100%);
+}
+
+.wrapper.active .form-box.register {
+    transform: translateX(0);
+}
+
+.wrapper.active {
+    height: 520px;
+}
+
+form h1 {
+    font-size: 32px;
+    text-align: center;
+    margin: 0;
+}
+
+form .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 20px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #fff;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.input-box input:focus {
+    border-color: #fff;
+}
+
+.input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+form .remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 0 0 15px;
+}
+
+.remember-forgot label input {
+    accent-color: #fff;
+    margin-right: 5px;
+}
+
+.remember-forgot a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.remember-forgot a:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+form button {
+    width: 100%;
+    height: 45px;
+    background-color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #e0e0e0;
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.register-link p a:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.error {
+    color: red;
+    font-size: 18px;
+    margin-top: 10px;
+}

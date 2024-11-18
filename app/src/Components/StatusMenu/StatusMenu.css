@@ -1,0 +1,49 @@
+.status-menu {
+    background-color: #2f3136;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    width: 150px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.status-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.status-menu li {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+}
+
+.status-menu li:hover {
+    background-color: #3a3d41;
+    border-radius: 4px;
+}
+
+.status-icon {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+.status-icon.online {
+    color: #3ba55d;
+}
+
+.status-icon.idle {
+    color: #faa61a;
+}
+
+.status-icon.dnd {
+    color: #f04747;
+}
+
+.status-icon.invisible {
+    color: #747f8d;
+}
