@@ -93,6 +93,8 @@ const changePassword = (id, currentPassword, newPassword) => {
         }
     });
 };
+
+
 const UserService = {
     getAllUsers,
     getUserById,

@@ -18,6 +18,8 @@ import React, { useState } from "react";
 import './LoginRegister.css';
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import UserService from "../../Services/UserService";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginRegister = ({ onLogin }) => {
     const [action, setAction] = useState('');
@@ -41,31 +43,44 @@ const LoginRegister = ({ onLogin }) => {
             const userId = userResponse.data.user.id;
 
             onLogin({ id: userId, token });
+            toast.success("Login successful!");
         } catch (error) {
             setError("Invalid email or password.");
+            toast.error("Error logging in. Please try again.");
             console.error("Error logging in:", error);
         }
     };
 
-
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await UserService.createUser({
+            await UserService.createUser({
                 username,
                 email,
                 password
             });
-            alert("Registration successful! You can now log in.");
+            toast.success("Registration successful! You can now log in.");
             loginLink();
         } catch (error) {
-            alert("Failed to register. Please try again.");
+            toast.error("Failed to register. Please try again.");
             console.error("Error registering user:", error);
         }
     };
 
     return (
         <div className={`wrapper ${action}`}>
+            {/* ToastContainer for showing toast notifications */}
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <div className="form-box login">
                 <form onSubmit={handleLoginSubmit}>
                     <h1>Login</h1>

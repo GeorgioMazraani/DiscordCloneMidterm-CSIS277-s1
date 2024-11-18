@@ -1,25 +1,3 @@
-/**
- * 
- * 
- * This component displays the user's profile information, including their avatar, username, status,
- * and settings options. It allows the user to:
- * - View and update their status (Online, Idle, Do Not Disturb, Invisible).
- * - Mute/unmute their microphone.
- * - Toggle headphone sound.
- * - Access settings via a button.
- * 
- * Key Features:
- * - Fetch user data from the backend on component mount.
- * - Update mute, headphone, and status settings in real-time.
- * - Status menu with click outside detection to close.
- * - Responsive layout styled with `UserProfile.css`.
- * 
- * Props:
- * - `onSettingsClick`: Callback function triggered when the settings button is clicked.
- * - `userId`: ID of the logged-in user for fetching and updating user data.
- */
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { FaMicrophoneSlash, FaHeadphones } from "react-icons/fa";
 import { FaMicrophone } from "react-icons/fa6";
@@ -30,7 +8,7 @@ import { RiStopCircleFill } from 'react-icons/ri';
 import StatusMenu from '../StatusMenu/StatusMenu';
 import UserService from '../../Services/UserService';
 import './UserProfile.css';
-import defaultAv from '../Assets/default.jpg';
+import defaultAv from '../Assets/default.jpg'
 import muteMicSound from '../Assets/sounds/mute-mic.mp3';
 import muteHeadphonesSound from '../Assets/sounds/mute-mic.mp3';
 
