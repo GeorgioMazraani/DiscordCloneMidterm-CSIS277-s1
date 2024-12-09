@@ -150,3 +150,34 @@ form button:hover {
     font-size: 18px;
     margin-top: 10px;
 }
+
+.video-container {
+    position: relative;
+    width: 300px;
+    /* or any width you prefer, or use responsive units like 100% */
+    height: 200px;
+    /* match the width/height ratio you desire */
+    overflow: hidden;
+    /* hide any overflow */
+    border-radius: 10px;
+    /* optional if you want rounded corners */
+}
+
+.video-feed,
+.overlay-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-feed {
+    object-fit: cover;
+    /* This ensures the video scales and crops to fill the container */
+}
+
+.overlay-canvas {
+    pointer-events: none;
+    /* Ensure the canvas doesn't block interactions if needed */
+}

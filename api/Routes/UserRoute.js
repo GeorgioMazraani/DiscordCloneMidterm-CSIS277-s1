@@ -31,6 +31,8 @@ router.get("/getByEmail/:email", authenticateToken, getUserByEmailController);
 // POST Routes
 router.post("/", insertUserValidation, createUserController);
 router.post("/auth/login", authenticateUserController);
+router.post('/:id/register-face', usersController.registerFaceRecognitionController);
+
 
 // PUT Routes
 router.put('/:id', authenticateToken, updateUserValidation, updateUserController);

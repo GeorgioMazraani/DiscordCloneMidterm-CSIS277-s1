@@ -31,8 +31,21 @@ const getAllUsers = async () => {
                 ["username", "Username"],
                 ["avatar", "Avatar"],
                 ["status", "Status"],
+                ["faceDescriptor", "FaceDescriptor"],
             ],
         });
+
+        // If faceDescriptor is stored as text and you want to parse it:
+        // users.forEach((user) => {
+        //     if (user.dataValues.FaceDescriptor) {
+        //         try {
+        //             user.dataValues.FaceDescriptor = JSON.parse(user.dataValues.FaceDescriptor);
+        //         } catch (err) {
+        //             console.error("Error parsing face descriptor for user:", err);
+        //         }
+        //     }
+        // });
+
         return users;
     } catch (error) {
         console.error("Error retrieving users:", error);
@@ -44,9 +57,24 @@ const getUserById = async (id) => {
     try {
         const user = await User.findByPk(id);
 
-        if (user && user.avatar) {
+        if (!user) {
+            return null;
+        }
+
+        // Convert avatar to base64 if needed
+        if (user.avatar) {
             user.avatar = `data:image/jpeg;base64,${user.avatar.toString('base64')}`;
         }
+
+        // If faceDescriptor is stored as text (like JSON), parse it if desired:
+        // If it's stored as a JSON string and you want it as an array:
+        // if (user.faceDescriptor && typeof user.faceDescriptor === "string") {
+        //     try {
+        //         user.faceDescriptor = JSON.parse(user.faceDescriptor);
+        //     } catch (err) {
+        //         console.error("Error parsing face descriptor:", err);
+        //     }
+        // }
 
         return user;
     } catch (error) {
@@ -169,6 +197,27 @@ const changePassword = async (id, currentPassword, newPassword) => {
     }
 };
 
+const registerFaceRecognition = async (id, faceDescriptor) => {
+    try {
+        const user = await User.findByPk(id);
+        if (!user) {
+            throw new Error(`User with ID ${id} not found`);
+        }
+
+        // Store face descriptor (could be an array or stringified JSON)
+        // Ensure that in your User model, faceDescriptor is a column that can store the data type you pass.
+        user.faceDescriptor = Array.isArray(faceDescriptor)
+            ? JSON.stringify(faceDescriptor)
+            : faceDescriptor;
+        user.updated_at = new Date();
+        await user.save();
+
+        return { message: "Face recognition data registered successfully" };
+    } catch (error) {
+        console.error("Error registering face recognition:", error);
+        throw new Error("Failed to register face recognition");
+    }
+};
 
 module.exports = {
     createUser,
@@ -179,6 +228,6 @@ module.exports = {
     deleteUser,
     getUserByUsername,
     updateAvatar,
-    changePassword
-
+    changePassword,
+    registerFaceRecognition
 };

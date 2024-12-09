@@ -574,3 +574,286 @@ button {
 .file-input::-webkit-file-upload-button:hover {
     background-color: #4752c4;
 }
+
+.face-auth-section {
+    background-color: #36393f;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.face-auth-section h3 {
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.face-auth-section p {
+    color: #b9bbbe;
+    margin-bottom: 10px;
+}
+
+.setup-face-btn {
+    background-color: #5865f2;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.setup-face-btn:hover {
+    background-color: #4752c4;
+    transform: scale(1.05);
+}
+
+.face-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90%;
+    background: #2f3136;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    color: #ffffff;
+    text-align: center;
+}
+
+.face-modal h3 {
+    margin-top: 0;
+    font-size: 22px;
+    border-bottom: 1px solid #4f545c;
+    padding-bottom: 10px;
+}
+
+.face-modal .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Password Section */
+.password-section {
+    background-color: #2f3136;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    /* Add spacing between Change Password and Face Recognition */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Section Title */
+.password-section h3 {
+    color: #ffffff;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Help Text */
+.password-help-text {
+    color: #b9bbbe;
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+/* Button */
+.change-password-btn {
+    background-color: #5865f2;
+    color: #fff;
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.change-password-btn:hover {
+    background-color: #4752c4;
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.notification {
+    background-color: #4caf50;
+    /* Green background for success */
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: fadeOut 5s forwards;
+}
+
+/* Optional fade-out animation */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Cancel Button */
+.cancel-btn {
+    background-color: #f04747;
+    /* Red color for cancel actions */
+    color: #ffffff;
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #d33c3c;
+    /* Slightly darker red on hover */
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Scrollbar for the Settings Page */
+.settings-page::-webkit-scrollbar {
+    width: 10px;
+    /* Adjust scrollbar width */
+}
+
+.settings-page::-webkit-scrollbar-track {
+    background: #2f3136;
+    /* Background of the track */
+    border-radius: 5px;
+    /* Rounded corners */
+}
+
+.settings-page::-webkit-scrollbar-thumb {
+    background: #8991f3;
+    /* Scrollbar color */
+    border-radius: 5px;
+    /* Rounded corners */
+    border: 2px solid #2f3136;
+    /* Adds spacing around the thumb */
+}
+
+.settings-page::-webkit-scrollbar-thumb:hover {
+    background: #8991f3;
+    /* Darker color when hovered */
+}
+
+/* Firefox Scrollbar */
+.settings-page {
+    scrollbar-width: thin;
+    /* Makes scrollbar thin */
+    scrollbar-color: #8991f3 #2f3136;
+    /* Thumb color and track color */
+}
+
+.face-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90%;
+    background: #2f3136;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.face-modal h3 {
+    margin-top: 0;
+    font-size: 22px;
+    border-bottom: 1px solid #4f545c;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.face-modal p {
+    margin-bottom: 15px;
+    color: #b9bbbe;
+    font-size: 0.95em;
+}
+
+.camera-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.video-feed,
+.overlay-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-feed {
+    object-fit: cover;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.save-btn,
+.cancel-btn {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+.save-btn {
+    background-color: #5865f2;
+    color: #fff;
+    border: none;
+}
+
+.save-btn:hover {
+    background-color: #4752c4;
+}
+
+.cancel-btn {
+    background-color: #f04747;
+    color: #fff;
+    border: none;
+}
+
+.cancel-btn:hover {
+    background-color: #d33c3c;
+}

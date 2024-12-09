@@ -1,25 +1,16 @@
 /**
- * 
- * 
- * This component provides a dual-purpose interface for user authentication, supporting both login 
- * and registration functionalities. Users can toggle between the login and registration forms 
- * dynamically using a link.
- * 
- * Key Functionalities:
- * - Login: Authenticates users with email and password.
- * - Registration: Allows users to create a new account by providing username, email, and password.
- * - Displays error messages for login or registration failures.
- * 
- * Props:
- * - `onLogin`: Callback function triggered after a successful login, passing user details and token.
+ * This component provides login and registration functionalities. It allows logging in by either email/password
+ * or face descriptor. If the user selects face login, it will open the camera, detect the user's face using face-api.js,
+ * and show a video feed with a detection overlay. Once a face is detected, the descriptor is stored and used for login.
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import './LoginRegister.css';
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import UserService from "../../Services/UserService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as faceapi from 'face-api.js';
 
 const LoginRegister = ({ onLogin }) => {
     const [action, setAction] = useState('');
@@ -28,37 +19,157 @@ const LoginRegister = ({ onLogin }) => {
     const [email, setEmail] = useState('');
     const [error, setError] = useState(null);
 
+    // New state for choosing login method
+    const [useFaceLogin, setUseFaceLogin] = useState(false);
+    const [modelsLoaded, setModelsLoaded] = useState(false);
+    const [stream, setStream] = useState(null);
+
+    const videoRef = useRef(null);
+    const canvasRef = useRef(null);
+
+    // This will hold the captured face descriptor once found
+    const [faceDescriptor, setFaceDescriptor] = useState(null);
+    const [detectionFrameId, setDetectionFrameId] = useState(null);
+
     const registerLink = () => setAction('active');
     const loginLink = () => setAction('');
+
+    useEffect(() => {
+        // Load Face-api models
+        const loadModels = async () => {
+            try {
+                await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+                await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+                await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+                setModelsLoaded(true);
+            } catch (err) {
+                console.error("Error loading models:", err);
+                toast.error("Failed to load face models.");
+            }
+        };
+        loadModels();
+    }, []);
+
+    useEffect(() => {
+        if (useFaceLogin && modelsLoaded) {
+            startCamera();
+        } else {
+            stopCamera();
+        }
+
+        return () => {
+            stopCamera();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [useFaceLogin, modelsLoaded]);
+
+    const startCamera = async () => {
+        try {
+            const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            setStream(mediaStream);
+            if (videoRef.current) {
+                videoRef.current.srcObject = mediaStream;
+                await videoRef.current.play();
+                startDetectionLoop();
+            }
+        } catch (err) {
+            console.error("Error accessing camera:", err);
+            toast.error("Unable to access camera. Please grant permission.");
+        }
+    };
+
+    const stopCamera = () => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            setStream(null);
+        }
+        if (detectionFrameId) {
+            cancelAnimationFrame(detectionFrameId);
+            setDetectionFrameId(null);
+        }
+        // Clear faceDescriptor when camera is stopped (optional)
+        setFaceDescriptor(null);
+    };
+
+    const startDetectionLoop = async () => {
+        const detectFace = async () => {
+            if (!videoRef.current || !canvasRef.current) return;
+
+            const video = videoRef.current;
+            const canvas = canvasRef.current;
+            const displaySize = { width: video.videoWidth, height: video.videoHeight };
+            faceapi.matchDimensions(canvas, displaySize);
+
+            const detection = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor();
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (detection) {
+                const resizedDetections = faceapi.resizeResults(detection, displaySize);
+                faceapi.draw.drawDetections(canvas, resizedDetections);
+                faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+
+                // We have a face descriptor from this detection
+                setFaceDescriptor(Array.from(detection.descriptor));
+            }
+
+            const frameId = requestAnimationFrame(detectFace);
+            setDetectionFrameId(frameId);
+        };
+        detectFace();
+    };
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+
         try {
-            const loginResponse = await UserService.authenticateUser({ email, password });
+            let credentials;
+            if (useFaceLogin) {
+                if (!faceDescriptor) {
+                    toast.error("No face detected yet. Please align your face in front of the camera.");
+                    return;
+                }
+                // Face-only login with descriptor
+                credentials = { faceDescriptor };
+            } else {
+                // Email + Password login
+                credentials = { email, password };
+            }
+
+            const loginResponse = await UserService.authenticateUser(credentials);
             const token = loginResponse.data.token;
             localStorage.setItem("token", token);
 
-            const userResponse = await UserService.getUserByEmail(email);
-            const userId = userResponse.data.user.id;
+            let userId;
+            if (credentials.email) {
+                const userResponse = await UserService.getUserByEmail(email);
+                userId = userResponse.data.user.id;
+            } else {
+                // If face-only login, user details come from the loginResponse
+                userId = loginResponse.data.user.id;
+            }
 
             onLogin({ id: userId, token });
             toast.success("Login successful!");
+
+            // If we used face login, stop the camera after successful login
+            if (useFaceLogin) {
+                stopCamera();
+                setUseFaceLogin(false); // reset to email/password mode if desired
+            }
         } catch (error) {
-            setError("Invalid email or password.");
+            setError("Invalid credentials.");
             toast.error("Error logging in. Please try again.");
             console.error("Error logging in:", error);
         }
     };
 
+
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
         try {
-            await UserService.createUser({
-                username,
-                email,
-                password
-            });
+            await UserService.createUser({ username, email, password });
             toast.success("Registration successful! You can now log in.");
             loginLink();
         } catch (error) {
@@ -84,26 +195,71 @@ const LoginRegister = ({ onLogin }) => {
             <div className="form-box login">
                 <form onSubmit={handleLoginSubmit}>
                     <h1>Login</h1>
-                    <div className="input-box">
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <FaEnvelope className="icon" />
+
+                    {/* Toggle for login method */}
+                    <div className="login-method-toggle">
+                        <label>
+                            <input
+                                type="radio"
+                                name="loginMethod"
+                                checked={!useFaceLogin}
+                                onChange={() => setUseFaceLogin(false)}
+                            />
+                            Email/Password
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="loginMethod"
+                                checked={useFaceLogin}
+                                onChange={() => setUseFaceLogin(true)}
+                            />
+                            Face Login
+                        </label>
                     </div>
-                    <div className="input-box">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <FaLock className="icon" />
-                    </div>
+
+                    {!useFaceLogin && (
+                        <>
+                            <div className="input-box">
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                                <FaEnvelope className="icon" />
+                            </div>
+                            <div className="input-box">
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <FaLock className="icon" />
+                            </div>
+                        </>
+                    )}
+
+                    {useFaceLogin && (
+                        <div className="face-login-section">
+                            <p className="face-info">
+                                Align your face in front of the camera. Once detected, click "Login".
+                            </p>
+                            <div className="video-container">
+                                <video ref={videoRef} className="video-feed" autoPlay muted></video>
+                                <canvas ref={canvasRef} className="overlay-canvas"></canvas>
+                            </div>
+
+                            {faceDescriptor ? (
+                                <p className="face-detected">Face Detected! You can now log in.</p>
+                            ) : (
+                                <p className="face-detected">No face detected yet...</p>
+                            )}
+                        </div>
+                    )}
 
                     <button type="submit">Login</button>
                     {error && <p className="error">{error}</p>}

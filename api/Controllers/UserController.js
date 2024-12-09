@@ -10,7 +10,8 @@ const {
     updateUser,
     deleteUser,
     updateAvatar,
-    changePassword
+    changePassword,
+    registerFaceRecognition
 } = require("../Services/UserServices");
 
 const usersController = {
@@ -173,7 +174,31 @@ const usersController = {
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
+    },
+
+    registerFaceRecognitionController: async (req, res) => {
+        const userId = req.params.id;
+        const { faceDescriptor } = req.body; // Face descriptor sent in the request body
+
+        try {
+            if (!userId) {
+                return res.status(400).json({ message: "Missing user ID" });
+            }
+
+            if (!faceDescriptor) {
+                return res.status(400).json({ message: "Face descriptor is required" });
+            }
+
+            // Call the service to register face recognition data
+            const result = await registerFaceRecognition(userId, faceDescriptor);
+
+            res.status(200).json(result); // Respond with success message
+        } catch (error) {
+            console.error("Error registering face recognition:", error);
+            res.status(500).json({ error: error.message });
+        }
     }
+
 };
 
 module.exports = { usersController, upload };

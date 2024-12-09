@@ -32,6 +32,10 @@ const User = sequelize.define("User", {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    faceDescriptor: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
     isHeadphonesOn: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

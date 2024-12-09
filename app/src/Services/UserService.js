@@ -93,6 +93,19 @@ const changePassword = (id, currentPassword, newPassword) => {
         }
     });
 };
+const registerFaceRecognition = (id, faceDescriptor) => {
+    return http.post(
+        `/users/${id}/register-face`,
+        { faceDescriptor },
+        {
+            headers: {
+                Authorization: getTokenBearer(),
+                "Content-Type": "application/json",
+            },
+        }
+    );
+};
+
 
 
 const UserService = {
@@ -105,7 +118,8 @@ const UserService = {
     authenticateUser,
     getUserByEmail,
     updateUserAvatar,
-    changePassword
+    changePassword,
+    registerFaceRecognition
 };
 
 export default UserService;
