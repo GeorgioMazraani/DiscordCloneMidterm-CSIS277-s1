@@ -360,7 +360,6 @@ const express = require("express");
 const router = express.Router();
 const authenticateToken = require("../Middleware/AuthToken");
 const { usersController, upload } = require("../Controllers/UserController");
-const { validationResult } = require('express-validator');
 const authenticateUserController = require("../Controllers/UserAuthController");
 
 const {
@@ -386,14 +385,8 @@ router.get("/", authenticateToken, getAllUsersController);
 router.get("/username/:username", authenticateToken, getUserByUsernameController);
 router.get("/getByEmail/:email", authenticateToken, getUserByEmailController);
 
-router.post("/", insertUserValidation, (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    next();
-}, createUserController);
-
+// POST Routes
+router.post("/", insertUserValidation, createUserController);
 router.post("/auth/login", authenticateUserController);
 router.post('/:id/register-face', usersController.registerFaceRecognitionController);
 

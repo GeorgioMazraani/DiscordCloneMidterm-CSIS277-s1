@@ -13,7 +13,7 @@ const {
     changePassword,
     registerFaceRecognition
 } = require("../Services/UserServices");
-
+const { validationResult } = require("express-validator");
 const usersController = {
     // Get a user by ID
     getUserByIdController: async (req, res) => {
@@ -73,7 +73,14 @@ const usersController = {
 
     // Create a new user
     createUserController: async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { username, email, password, avatar } = req.body;
+
         try {
             if (!username || !email || !password) {
                 return res.status(400).json({ message: "Missing required fields" });
@@ -93,6 +100,12 @@ const usersController = {
     },
 
     updateUserController: async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const userId = req.params.id;
         const { username, email, password, avatar, status, isMuted, isHeadphonesOn } = req.body;
 
@@ -113,6 +126,7 @@ const usersController = {
             res.status(500).json({ error: error.message });
         }
     },
+
     // Delete a user
     deleteUserController: async (req, res) => {
         const userId = req.params.id;

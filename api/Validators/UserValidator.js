@@ -107,17 +107,9 @@ const changeUserPasswordValidation = [
         .isStrongPassword().withMessage("New password is weak. Try adding numbers and special characters"),
 ];
 
-const updateUserBioValidation = [
-    check("bio")
-        .optional()
-        .isString().withMessage("Bio must be a string")
-        .isLength({ max: 250 }).withMessage("Bio cannot exceed 250 characters"),
-];
-
 module.exports = {
     insertUserValidation,
     updateUserValidation,
     updateUserEmailValidation,
     changeUserPasswordValidation,
-    updateUserBioValidation,
 };
