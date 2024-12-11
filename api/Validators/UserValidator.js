@@ -29,7 +29,7 @@ const insertUserValidation = [
     check("password")
         .notEmpty().withMessage("Password is required")
         .isLength({ min: 8 }).withMessage("Password must be at least 8 characters long")
-        .isStrongPassword().withMessage("Password is weak. Try adding numbers and special characters"),
+        .isStrongPassword().withMessage("Password is weak."),
 
     check("avatar")
         .optional()

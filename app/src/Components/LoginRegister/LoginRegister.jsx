@@ -60,7 +60,6 @@ const LoginRegister = ({ onLogin }) => {
         return () => {
             stopCamera();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [useFaceLogin, modelsLoaded]);
 
     const startCamera = async () => {
@@ -168,15 +167,29 @@ const LoginRegister = ({ onLogin }) => {
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
+        setError(null); // Clear previous errors
+
         try {
             await UserService.createUser({ username, email, password });
             toast.success("Registration successful! You can now log in.");
             loginLink();
         } catch (error) {
-            toast.error("Failed to register. Please try again.");
-            console.error("Error registering user:", error);
+
+            if (error.response && error.response.data.errors) {
+                const errorMessages = {};
+                error.response.data.errors.forEach((err) => {
+                    errorMessages[err.path] = err.msg; // Map 'path' (field name) to 'msg' (error message)
+                });
+                console.log("test", errorMessages)
+                setError(errorMessages);
+            } else {
+                toast.error("Failed to register. Please try again.");
+                console.error("Registration error:", error);
+            }
         }
     };
+
+
 
     return (
         <div className={`wrapper ${action}`}>
@@ -195,8 +208,6 @@ const LoginRegister = ({ onLogin }) => {
             <div className="form-box login">
                 <form onSubmit={handleLoginSubmit}>
                     <h1>Login</h1>
-
-                    {/* Toggle for login method */}
                     <div className="login-method-toggle">
                         <label>
                             <input
@@ -262,7 +273,10 @@ const LoginRegister = ({ onLogin }) => {
                     )}
 
                     <button type="submit">Login</button>
-                    {error && <p className="error">{error}</p>}
+                    {error?.username && <p className="error-message">{error.username}</p>}
+                    {error?.email && <p className="error-message">{error.email}</p>}
+                    {error?.password && <p className="error-message">{error.password}</p>}
+
                     <div className="register-link">
                         <p>Don't have an account? <a href="#" onClick={registerLink}>Register</a></p>
                     </div>
@@ -271,7 +285,7 @@ const LoginRegister = ({ onLogin }) => {
             <div className="form-box register">
                 <form onSubmit={handleRegisterSubmit}>
                     <h1>Registration</h1>
-                    <div className="input-box">
+                    <div className={`input-box ${error?.username ? "error" : ""}`}>
                         <input
                             type="text"
                             placeholder="Username"
@@ -280,8 +294,11 @@ const LoginRegister = ({ onLogin }) => {
                             required
                         />
                         <FaUser className="icon" />
+                        {error?.username && <p className="error-message">{error.username}</p>}
                     </div>
-                    <div className="input-box">
+
+
+                    <div className={`input-box ${error?.email ? "error" : ""}`}>
                         <input
                             type="email"
                             placeholder="Email"
@@ -290,8 +307,11 @@ const LoginRegister = ({ onLogin }) => {
                             required
                         />
                         <FaEnvelope className="icon" />
+                        {error?.email && <p className="error-message">{error.email}</p>}
                     </div>
-                    <div className="input-box">
+
+
+                    <div className={`input-box ${error?.password ? "error" : ""}`}>
                         <input
                             type="password"
                             placeholder="Password"
@@ -300,7 +320,10 @@ const LoginRegister = ({ onLogin }) => {
                             required
                         />
                         <FaLock className="icon" />
+                        {error?.password && <p className="error-message">{error.password}</p>}
                     </div>
+
+
 
                     <button type="submit">Register</button>
                     <div className="register-link">
