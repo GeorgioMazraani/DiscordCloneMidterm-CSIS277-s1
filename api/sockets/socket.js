@@ -6,7 +6,7 @@ const DirectMessageService = require("../Services/DirectMessageService")
 const initializeSocket = (server) => {
     const io = new Server(server, {
         cors: {
-            origin: "*", // Adjust to specific domains in production for better security
+            origin: "*",
         },
     });
 

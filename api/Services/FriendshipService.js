@@ -2,7 +2,17 @@
 const Friendship = require("../Models/Friendship");
 const User = require("../Models/User");
 const dm = require("../Services/DirectMessageService");
+const Sequelize = require("sequelize");
 
+/**
+ * Sends a friend request from one user to another.
+ * @async
+ * @function addFriend
+ * @param {number} userId - The ID of the user sending the request.
+ * @param {number} friendId - The ID of the user receiving the request.
+ * @returns {Promise<Object>} The created friendship record.
+ * @throws {Error} Throws if request already sent or cannot be created.
+ */
 const addFriend = async (userId, friendId) => {
     try {
         const existingFriendship = await Friendship.findOne({
@@ -29,6 +39,15 @@ const addFriend = async (userId, friendId) => {
     }
 };
 
+/**
+ * Accepts a pending friend request.
+ * @async
+ * @function acceptFriendRequest
+ * @param {number} userId - The ID of the user accepting the request.
+ * @param {number} friendId - The ID of the user who sent the request.
+ * @returns {Promise<Object>} The updated friendship record.
+ * @throws {Error} Throws if no pending request is found or update fails.
+ */
 const acceptFriendRequest = async (userId, friendId) => {
     try {
         const friendship = await Friendship.findOne({
@@ -55,6 +74,15 @@ const acceptFriendRequest = async (userId, friendId) => {
     }
 };
 
+/**
+ * Rejects a pending friend request.
+ * @async
+ * @function rejectFriendRequest
+ * @param {number} userId - The ID of the user rejecting the request.
+ * @param {number} friendId - The ID of the user who sent the request.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws if no pending request is found or deletion fails.
+ */
 const rejectFriendRequest = async (userId, friendId) => {
     try {
         const friendship = await Friendship.findOne({
@@ -74,6 +102,15 @@ const rejectFriendRequest = async (userId, friendId) => {
     }
 };
 
+/**
+ * Removes a friend relationship between two users.
+ * @async
+ * @function removeFriend
+ * @param {number} userId - The ID of one of the users.
+ * @param {number} friendId - The ID of the other user.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws if friendship does not exist or removal fails.
+ */
 const removeFriend = async (userId, friendId) => {
     try {
         const deletedCount = await Friendship.destroy({
@@ -95,6 +132,15 @@ const removeFriend = async (userId, friendId) => {
     }
 };
 
+/**
+ * Blocks a user and removes any friendship or pending request.
+ * @async
+ * @function blockUser
+ * @param {number} userId - The ID of the user blocking.
+ * @param {number} friendId - The ID of the user being blocked.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws if blocking fails.
+ */
 const blockUser = async (userId, friendId) => {
     try {
         const [friendship] = await Friendship.findOrCreate({
@@ -120,9 +166,15 @@ const blockUser = async (userId, friendId) => {
     }
 };
 
-
-const Sequelize = require("sequelize");
-
+/**
+ * Unblocks a user and resets the friendship status.
+ * @async
+ * @function unblockUser
+ * @param {number} userId - The ID of the user unblocking.
+ * @param {number} friendId - The ID of the user being unblocked.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws if unblocking fails or no friendship found.
+ */
 const unblockUser = async (userId, friendId) => {
     try {
         const friendships = await Friendship.findAll({
@@ -155,6 +207,15 @@ const unblockUser = async (userId, friendId) => {
     }
 };
 
+/**
+ * Checks if two users are friends (status accepted).
+ * @async
+ * @function areFriends
+ * @param {number} userId - The first user's ID.
+ * @param {number} friendId - The second user's ID.
+ * @returns {Promise<boolean>} True if they are friends, otherwise false.
+ * @throws {Error} Throws if lookup fails.
+ */
 const areFriends = async (userId, friendId) => {
     try {
         const friendship = await Friendship.findOne({
@@ -168,6 +229,14 @@ const areFriends = async (userId, friendId) => {
     }
 };
 
+/**
+ * Retrieves lists of accepted, pending, and blocked friends for a user.
+ * @async
+ * @function getFriends
+ * @param {number} userId - The user's ID.
+ * @returns {Promise<Object>} An object with arrays of accepted, pending, and blocked friends.
+ * @throws {Error} Throws if retrieval fails.
+ */
 const getFriends = async (userId) => {
     try {
         const acceptedFriends = await User.findByPk(userId, {

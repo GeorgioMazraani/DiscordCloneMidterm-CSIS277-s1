@@ -3,6 +3,17 @@ const Channel = require("../Models/Channel");
 const User = require("../Models/User");
 const Message = require("../Models/Message");
 
+/**
+ * Creates a new channel in a server.
+ * @async
+ * @function createChannel
+ * @param {string} name - The channel's name.
+ * @param {string} type - The channel's type (e.g., 'text' or 'voice').
+ * @param {number|null} [serverId=null] - The ID of the server this channel belongs to.
+ * @param {boolean} [isPrivate=false] - Whether the channel is private.
+ * @returns {Promise<Object>} The created channel object.
+ * @throws {Error} Throws if creation fails.
+ */
 const createChannel = async (name, type, serverId = null, isPrivate = false) => {
     try {
         const newChannel = await Channel.create({
@@ -20,6 +31,14 @@ const createChannel = async (name, type, serverId = null, isPrivate = false) => 
     }
 };
 
+/**
+ * Retrieves all channels for a given server, including their messages and participants.
+ * @async
+ * @function getAllChannels
+ * @param {number} serverId - The server ID.
+ * @returns {Promise<Array>} An array of channel objects.
+ * @throws {Error} Throws if retrieval fails.
+ */
 const getAllChannels = async (serverId) => {
     try {
         const channels = await Channel.findAll({
@@ -45,6 +64,14 @@ const getAllChannels = async (serverId) => {
     }
 };
 
+/**
+ * Retrieves a specific channel by its ID.
+ * @async
+ * @function getChannelById
+ * @param {number} id - The channel ID.
+ * @returns {Promise<Object>} The channel object.
+ * @throws {Error} Throws if channel not found or retrieval fails.
+ */
 const getChannelById = async (id) => {
     try {
         const channel = await Channel.findByPk(id, {
@@ -70,6 +97,15 @@ const getChannelById = async (id) => {
     }
 };
 
+/**
+ * Updates a channel with the provided updates.
+ * @async
+ * @function updateChannel
+ * @param {number} id - The channel ID.
+ * @param {Object} updates - The fields to update (e.g., { name: "New Channel Name" }).
+ * @returns {Promise<Object>} The updated channel object.
+ * @throws {Error} Throws if channel not found or update fails.
+ */
 const updateChannel = async (id, updates) => {
     try {
         const [updated] = await Channel.update(updates, {
@@ -84,6 +120,14 @@ const updateChannel = async (id, updates) => {
     }
 };
 
+/**
+ * Deletes a channel by its ID.
+ * @async
+ * @function deleteChannel
+ * @param {number} id - The channel ID.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws if channel not found or deletion fails.
+ */
 const deleteChannel = async (id) => {
     try {
         const channel = await Channel.findByPk(id);
@@ -96,6 +140,15 @@ const deleteChannel = async (id) => {
     }
 };
 
+/**
+ * Adds a user to a channel as a participant.
+ * @async
+ * @function addUserToChannel
+ * @param {number} channelId - The channel ID.
+ * @param {number} userId - The user ID.
+ * @returns {Promise<Object>} The updated channel object with new participant.
+ * @throws {Error} Throws if channel or user not found or operation fails.
+ */
 const addUserToChannel = async (channelId, userId) => {
     try {
         const channel = await Channel.findByPk(channelId);
@@ -111,6 +164,15 @@ const addUserToChannel = async (channelId, userId) => {
     }
 };
 
+/**
+ * Removes a user from a channel.
+ * @async
+ * @function removeUserFromChannel
+ * @param {number} channelId - The channel ID.
+ * @param {number} userId - The user ID.
+ * @returns {Promise<Object>} The updated channel object without the removed participant.
+ * @throws {Error} Throws if channel or user not found or operation fails.
+ */
 const removeUserFromChannel = async (channelId, userId) => {
     try {
         const channel = await Channel.findByPk(channelId);

@@ -2,6 +2,15 @@ const DirectMessage = require("../Models/DirectMessages");
 const User = require("../Models/User");
 const { Op } = require("sequelize");
 
+/**
+ * Creates or retrieves an existing direct message session between two users.
+ * @async
+ * @function createOrGetDirectMessage
+ * @param {number} user1_id - The ID of one user.
+ * @param {number} user2_id - The ID of the other user.
+ * @returns {Promise<Object>} The direct message record.
+ * @throws {Error} Throws if either user does not exist or operation fails.
+ */
 const createOrGetDirectMessage = async (user1_id, user2_id) => {
     try {
         const user1Exists = await User.findByPk(user1_id);
@@ -27,6 +36,15 @@ const createOrGetDirectMessage = async (user1_id, user2_id) => {
         throw new Error("Failed to create or retrieve DM session");
     }
 };
+
+/**
+ * Retrieves all direct message sessions a user is part of.
+ * @async
+ * @function getDirectMessagesByUser
+ * @param {number} userId - The user's ID.
+ * @returns {Promise<Array>} An array of direct message records with associated user info.
+ * @throws {Error} Throws if retrieval fails.
+ */
 const getDirectMessagesByUser = async (userId) => {
     try {
         const directMessages = await DirectMessage.findAll({
@@ -46,6 +64,15 @@ const getDirectMessagesByUser = async (userId) => {
     }
 };
 
+/**
+ * Deletes the direct message session(s) between two users.
+ * @async
+ * @function deleteDirectMessagesBetweenUsers
+ * @param {number} user1_id - The ID of one user.
+ * @param {number} user2_id - The ID of the other user.
+ * @returns {Promise<void>} Resolves when the deletion is complete.
+ * @throws {Error} Throws if deletion fails.
+ */
 const deleteDirectMessagesBetweenUsers = async (user1_id, user2_id) => {
     try {
         await DirectMessage.destroy({

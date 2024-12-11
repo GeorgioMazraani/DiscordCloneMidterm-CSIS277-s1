@@ -2,6 +2,17 @@ const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+/**
+ * Creates a new user with the provided credentials.
+ * @async
+ * @function createUser
+ * @param {string} username - The desired username for the new user.
+ * @param {string} email - The email address of the new user.
+ * @param {string} password - The plaintext password which will be hashed.
+ * @param {Buffer|null} avatar - An optional avatar image (as a Buffer) for the new user.
+ * @returns {Promise<Object>} Returns the created user object.
+ * @throws {Error} Throws an error if user creation fails.
+ */
 const createUser = async (username, email, password, avatar) => {
     try {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -22,6 +33,13 @@ const createUser = async (username, email, password, avatar) => {
     }
 };
 
+/**
+ * Retrieves all users with selected attributes.
+ * @async
+ * @function getAllUsers
+ * @returns {Promise<Array>} An array of user objects with specified attributes.
+ * @throws {Error} Throws an error if retrieval fails.
+ */
 const getAllUsers = async () => {
     try {
         const users = await User.findAll({
@@ -35,17 +53,6 @@ const getAllUsers = async () => {
             ],
         });
 
-        // If faceDescriptor is stored as text and you want to parse it:
-        // users.forEach((user) => {
-        //     if (user.dataValues.FaceDescriptor) {
-        //         try {
-        //             user.dataValues.FaceDescriptor = JSON.parse(user.dataValues.FaceDescriptor);
-        //         } catch (err) {
-        //             console.error("Error parsing face descriptor for user:", err);
-        //         }
-        //     }
-        // });
-
         return users;
     } catch (error) {
         console.error("Error retrieving users:", error);
@@ -53,6 +60,14 @@ const getAllUsers = async () => {
     }
 };
 
+/**
+ * Retrieves a user by their ID.
+ * @async
+ * @function getUserById
+ * @param {number} id - The ID of the user to retrieve.
+ * @returns {Promise<Object|null>} The user object or null if not found.
+ * @throws {Error} Throws an error if retrieval fails.
+ */
 const getUserById = async (id) => {
     try {
         const user = await User.findByPk(id);
@@ -61,21 +76,9 @@ const getUserById = async (id) => {
             return null;
         }
 
-        // Convert avatar to base64 if needed
         if (user.avatar) {
             user.avatar = `data:image/jpeg;base64,${user.avatar.toString('base64')}`;
         }
-
-        // If faceDescriptor is stored as text (like JSON), parse it if desired:
-        // If it's stored as a JSON string and you want it as an array:
-        // if (user.faceDescriptor && typeof user.faceDescriptor === "string") {
-        //     try {
-        //         user.faceDescriptor = JSON.parse(user.faceDescriptor);
-        //     } catch (err) {
-        //         console.error("Error parsing face descriptor:", err);
-        //     }
-        // }
-
         return user;
     } catch (error) {
         console.error("Error retrieving user by ID:", error);
@@ -83,6 +86,14 @@ const getUserById = async (id) => {
     }
 };
 
+/**
+ * Retrieves a user by their email address.
+ * @async
+ * @function getUserByEmail
+ * @param {string} email - The email of the user to retrieve.
+ * @returns {Promise<Object|null>} The user object or null if not found.
+ * @throws {Error} Throws an error if retrieval fails.
+ */
 const getUserByEmail = async (email) => {
     try {
         const user = await User.findOne({ where: { email } });
@@ -93,6 +104,21 @@ const getUserByEmail = async (email) => {
     }
 };
 
+/**
+ * Updates a user's details such as username, email, password, avatar, status, and audio settings.
+ * @async
+ * @function updateUser
+ * @param {number} id - The user ID to update.
+ * @param {string} username - The new username.
+ * @param {string} email - The new email address.
+ * @param {string|null} password - The new plaintext password (if provided).
+ * @param {Buffer|null} avatar - The new avatar (if provided).
+ * @param {string|null} status - The user's new status (if provided).
+ * @param {boolean} [isMuted] - Whether the user is muted.
+ * @param {boolean} [isHeadphonesOn] - Whether the user is using headphones.
+ * @returns {Promise<Array>} Returns an array with the number of affected rows.
+ * @throws {Error} Throws an error if update fails.
+ */
 const updateUser = async (id, username, email, password, avatar, status, isMuted, isHeadphonesOn) => {
     try {
         let hashedPassword = null;
@@ -131,6 +157,14 @@ const updateUser = async (id, username, email, password, avatar, status, isMuted
     }
 };
 
+/**
+ * Deletes a user by their ID.
+ * @async
+ * @function deleteUser
+ * @param {number} id - The ID of the user to delete.
+ * @returns {Promise<Object>} Returns the deleted user object.
+ * @throws {Error} Throws an error if deletion fails or user not found.
+ */
 const deleteUser = async (id) => {
     try {
         const user = await User.findByPk(id);
@@ -145,6 +179,14 @@ const deleteUser = async (id) => {
     }
 };
 
+/**
+ * Retrieves a user by their username.
+ * @async
+ * @function getUserByUsername
+ * @param {string} username - The username to search for.
+ * @returns {Promise<Object|null>} The user object or null if not found.
+ * @throws {Error} Throws an error if retrieval fails.
+ */
 const getUserByUsername = async (username) => {
     try {
         const user = await User.findOne({ where: { username } });
@@ -155,6 +197,15 @@ const getUserByUsername = async (username) => {
     }
 };
 
+/**
+ * Updates a user's avatar.
+ * @async
+ * @function updateAvatar
+ * @param {number} id - The user ID.
+ * @param {Buffer|null} avatar - The new avatar image as a buffer.
+ * @returns {Promise<Array>} Returns an array indicating the number of rows updated.
+ * @throws {Error} Throws an error if update fails.
+ */
 const updateAvatar = async (id, avatar) => {
     try {
         const updateData = {
@@ -174,6 +225,16 @@ const updateAvatar = async (id, avatar) => {
     }
 };
 
+/**
+ * Changes a user's password after verifying the current one.
+ * @async
+ * @function changePassword
+ * @param {number} id - The user ID.
+ * @param {string} currentPassword - The current plaintext password.
+ * @param {string} newPassword - The new plaintext password.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws an error if verification fails or update fails.
+ */
 const changePassword = async (id, currentPassword, newPassword) => {
     try {
         const user = await User.findByPk(id);
@@ -197,15 +258,21 @@ const changePassword = async (id, currentPassword, newPassword) => {
     }
 };
 
+/**
+ * Registers face recognition data (face descriptor) for a user.
+ * @async
+ * @function registerFaceRecognition
+ * @param {number} id - The user ID.
+ * @param {Array|Object|string} faceDescriptor - The face recognition data (descriptor).
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws an error if update fails or user not found.
+ */
 const registerFaceRecognition = async (id, faceDescriptor) => {
     try {
         const user = await User.findByPk(id);
         if (!user) {
             throw new Error(`User with ID ${id} not found`);
         }
-
-        // Store face descriptor (could be an array or stringified JSON)
-        // Ensure that in your User model, faceDescriptor is a column that can store the data type you pass.
         user.faceDescriptor = Array.isArray(faceDescriptor)
             ? JSON.stringify(faceDescriptor)
             : faceDescriptor;

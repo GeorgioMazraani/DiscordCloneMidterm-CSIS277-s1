@@ -2,6 +2,20 @@ const Message = require("../Models/Message");
 const User = require("../Models/User");
 const Channel = require("../Models/Channel");
 const DirectMessage = require("../Models/DirectMessages");
+
+/**
+ * Creates a new message in either a channel or a direct message (DM).
+ * @async
+ * @function createMessage
+ * @param {Object} params - The message details.
+ * @param {string} params.content - The message content.
+ * @param {Date} [params.timestamp=new Date()] - The time the message was sent.
+ * @param {number} params.sender_id - The ID of the sender.
+ * @param {number|null} [params.dm_id=null] - The DM session ID if sending a direct message.
+ * @param {number|null} [params.channel_id=null] - The channel ID if sending to a channel.
+ * @returns {Promise<Object>} The created message object.
+ * @throws {Error} Throws if required parameters are missing or creation fails.
+ */
 const createMessage = async ({ content, timestamp, sender_id, dm_id = null, channel_id = null }) => {
     if (!content || typeof content !== "string" || content.trim() === "") {
         throw new Error("Content must be a non-empty string.");
@@ -31,6 +45,14 @@ const createMessage = async ({ content, timestamp, sender_id, dm_id = null, chan
     }
 };
 
+/**
+ * Retrieves all messages from a specific channel.
+ * @async
+ * @function getMessagesByChannel
+ * @param {number} channelId - The channel ID.
+ * @returns {Promise<Array>} An array of message objects with sender data.
+ * @throws {Error} Throws if retrieval fails.
+ */
 const getMessagesByChannel = async (channelId) => {
     try {
         const messages = await Message.findAll({
@@ -51,6 +73,14 @@ const getMessagesByChannel = async (channelId) => {
     }
 };
 
+/**
+ * Retrieves all messages from a specific direct message (DM) session.
+ * @async
+ * @function getMessagesByDM
+ * @param {number} dmId - The DM session ID.
+ * @returns {Promise<Array>} An array of message objects with sender data.
+ * @throws {Error} Throws if retrieval fails.
+ */
 const getMessagesByDM = async (dmId) => {
     try {
         const messages = await Message.findAll({
@@ -71,6 +101,14 @@ const getMessagesByDM = async (dmId) => {
     }
 };
 
+/**
+ * Retrieves all messages sent by a specific user.
+ * @async
+ * @function getMessagesByUser
+ * @param {number} userId - The user ID.
+ * @returns {Promise<Array>} An array of message objects with channel/DM info.
+ * @throws {Error} Throws if retrieval fails.
+ */
 const getMessagesByUser = async (userId) => {
     try {
         const messages = await Message.findAll({
@@ -96,6 +134,14 @@ const getMessagesByUser = async (userId) => {
     }
 };
 
+/**
+ * Deletes a message by its ID.
+ * @async
+ * @function deleteMessage
+ * @param {number} messageId - The ID of the message to delete.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws if message not found or deletion fails.
+ */
 const deleteMessage = async (messageId) => {
     try {
         const result = await Message.destroy({ where: { id: messageId } });
@@ -108,6 +154,16 @@ const deleteMessage = async (messageId) => {
         throw new Error("Failed to delete message");
     }
 };
+
+/**
+ * Updates a message's content by its ID.
+ * @async
+ * @function updateMessage
+ * @param {number} messageId - The ID of the message to update.
+ * @param {string} newContent - The new content for the message.
+ * @returns {Promise<Object>} The updated message object.
+ * @throws {Error} Throws if message not found or update fails.
+ */
 const updateMessage = async (messageId, newContent) => {
     try {
         const message = await Message.findByPk(messageId);

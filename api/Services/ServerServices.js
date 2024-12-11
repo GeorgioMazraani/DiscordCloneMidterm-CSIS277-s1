@@ -3,6 +3,16 @@ const User = require("../Models/User");
 const Channel = require("../Models/Channel");
 const Friendship = require("../Models/Friendship");
 
+/**
+ * Creates a new server with a default "General text" and "General voice" channel.
+ * @async
+ * @function createServer
+ * @param {string} name - The name of the server.
+ * @param {number} ownerId - The ID of the server's owner.
+ * @param {Buffer|null} [icon=null] - Optional server icon.
+ * @returns {Promise<Object>} The created server object.
+ * @throws {Error} Throws an error if server creation fails.
+ */
 const createServer = async (name, ownerId, icon = null) => {
     try {
         const newServer = await Server.create({
@@ -39,6 +49,13 @@ const createServer = async (name, ownerId, icon = null) => {
     }
 };
 
+/**
+ * Retrieves all servers along with their owner, channels, and members.
+ * @async
+ * @function getAllServers
+ * @returns {Promise<Array>} An array of server objects with associated data.
+ * @throws {Error} Throws an error if retrieval fails.
+ */
 const getAllServers = async () => {
     try {
         const servers = await Server.findAll({
@@ -68,7 +85,14 @@ const getAllServers = async () => {
     }
 };
 
-
+/**
+ * Retrieves a server by its ID, including owner, channels, and members.
+ * @async
+ * @function getServerById
+ * @param {number} id - The server ID.
+ * @returns {Promise<Object>} The server object.
+ * @throws {Error} Throws an error if server is not found or retrieval fails.
+ */
 const getServerById = async (id) => {
     try {
         const server = await Server.findByPk(id, {
@@ -99,8 +123,15 @@ const getServerById = async (id) => {
     }
 };
 
-
-
+/**
+ * Updates a server's details, specifically its name.
+ * @async
+ * @function updateServerDetails
+ * @param {number} id - The server ID.
+ * @param {string} name - The new server name.
+ * @returns {Promise<Object>} The updated server object.
+ * @throws {Error} Throws an error if update fails or server not found.
+ */
 const updateServerDetails = async (id, name) => {
     try {
         const updated = await Server.update(
@@ -120,6 +151,15 @@ const updateServerDetails = async (id, name) => {
     }
 };
 
+/**
+ * Updates a server's icon.
+ * @async
+ * @function updateServerIcon
+ * @param {number} id - The server ID.
+ * @param {Buffer|null} icon - The new server icon.
+ * @returns {Promise<Object>} The updated server object.
+ * @throws {Error} Throws an error if update fails or server not found.
+ */
 const updateServerIcon = async (id, icon) => {
     try {
         const updated = await Server.update(
@@ -139,7 +179,14 @@ const updateServerIcon = async (id, icon) => {
     }
 };
 
-
+/**
+ * Deletes a server and all its associated channels.
+ * @async
+ * @function deleteServer
+ * @param {number} id - The server ID.
+ * @returns {Promise<Object>} A success message.
+ * @throws {Error} Throws an error if deletion fails or server not found.
+ */
 const deleteServer = async (id) => {
     try {
         const server = await Server.findByPk(id, {
@@ -173,6 +220,16 @@ const deleteServer = async (id) => {
     }
 };
 
+/**
+ * Adds a user to a server, ensuring they are friends with the inviter.
+ * @async
+ * @function addUserToServer
+ * @param {number} serverId - The server ID.
+ * @param {number} inviterId - The ID of the user who invites.
+ * @param {number} inviteeId - The ID of the user being invited.
+ * @returns {Promise<Object>} The updated server object with the new member.
+ * @throws {Error} Throws an error if users are not friends or if retrieval fails.
+ */
 const addUserToServer = async (serverId, inviterId, inviteeId) => {
     try {
         const server = await Server.findByPk(serverId);
@@ -220,8 +277,6 @@ const addUserToServer = async (serverId, inviterId, inviteeId) => {
         throw new Error("Failed to add user to server");
     }
 };
-
-
 
 module.exports = {
     createServer,
