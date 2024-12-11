@@ -23,7 +23,7 @@ import AddFriendModal from '../AddFriendModal/AddFriendModal';
 import FriendshipService from '../../Services/FriendshipService';
 import './FriendsList.css';
 import WumpusPending from '../Assets/pending.png';
-import WumpusOnline from '../Assets/online.webp';
+import WumpusOnline from '../Assets/online.png';
 import WumpusBlocked from '../Assets/blocked.png';
 import UserService from '../../Services/UserService';
 import defaultAv from '../Assets/default.jpg'

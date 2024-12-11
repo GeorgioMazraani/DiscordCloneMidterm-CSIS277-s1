@@ -43,12 +43,13 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
     const [faceRegistrationSuccess, setFaceRegistrationSuccess] = useState(false);
     const [notification, setNotification] = useState('');
     const [modelsLoaded, setModelsLoaded] = useState(false);
-
+    const [error, setError] = useState({});
     // Refs for face modal
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const [stream, setStream] = useState(null);
     const [detectionFrameId, setDetectionFrameId] = useState(null);
+    const [isFaceDetected, setIsFaceDetected] = useState(false);
 
     useEffect(() => {
         const loadModels = async () => {
@@ -81,15 +82,6 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
 
         fetchUserData();
     }, [userId]);
-
-    const updateUserField = async (updatedField) => {
-        try {
-            await UserService.updateUser(userId, updatedField);
-            console.log("User updated successfully");
-        } catch (error) {
-            console.error("Error updating user:", error);
-        }
-    };
 
     // Avatar functions
     const handleAvatarClick = () => {
@@ -190,6 +182,9 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
                 const resizedDetections = faceapi.resizeResults(detection, displaySize);
                 faceapi.draw.drawDetections(canvas, resizedDetections);
                 faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+                setIsFaceDetected(true); // Face detected
+            } else {
+                setIsFaceDetected(false); // No face detected
             }
 
             const frameId = requestAnimationFrame(detectFace);
@@ -226,16 +221,47 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
         setTimeout(() => setNotification(''), 5000);
     };
 
-    // Save the updated username
-    const handleSaveUsername = async () => {
-        setIsEditingUsername(false);
-        await updateUserField({ username });
+
+    const handleSaveUsername = async (e) => {
+        e.preventDefault();
+        setError(null);
+
+        try {
+            await UserService.updateUser(userId, { username });
+            console.log("Username updated successfully!");
+            setIsEditingUsername(false);
+        } catch (error) {
+            if (error.response && error.response.data.errors) {
+                const errorMessages = {};
+                error.response.data.errors.forEach((err) => {
+                    errorMessages[err.path] = err.msg;
+                });
+                setError(errorMessages);
+            } else {
+                console.error("Error updating username:", error);
+            }
+        }
     };
 
-    // Save the updated email
-    const handleSaveEmail = async () => {
-        setIsEditingEmail(false);
-        await updateUserField({ email });
+    const handleSaveEmail = async (e) => {
+        e.preventDefault();
+        setError(null);
+
+        try {
+            await UserService.updateUser(userId, { email });
+            console.log("Email updated successfully!");
+            setIsEditingEmail(false);
+        } catch (error) {
+            if (error.response && error.response.data.errors) {
+                const errorMessages = {};
+                error.response.data.errors.forEach((err) => {
+                    errorMessages[err.path] = err.msg;
+                });
+                setError(errorMessages);
+            } else {
+                console.error("Error updating email:", error);
+            }
+        }
     };
 
     // Handle password change
@@ -298,14 +324,28 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
                         <div className="detail-item">
                             <p>Username</p>
                             {isEditingUsername ? (
-                                <div>
+                                <form onSubmit={handleSaveUsername}>
                                     <input
                                         type="text"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
+                                        className={error?.username ? "error" : ""}
                                     />
-                                    <button onClick={handleSaveUsername} className="save-btn">Save</button>
-                                </div>
+                                    <div className="button-container">
+                                        <button type="submit" className="save-btn">Save</button>
+                                        <button
+                                            type="button"
+                                            className="cancel-btn"
+                                            onClick={() => {
+                                                setIsEditingUsername(false);
+                                                setError(null); // Clear errors when cancelling
+                                            }}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                    {error?.username && <p className="error-message">{error.username}</p>}
+                                </form>
                             ) : (
                                 <div>
                                     <p>{username}</p>
@@ -314,22 +354,35 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
                             )}
                         </div>
 
-                        {/* Email */}
                         <div className="detail-item">
                             <p>Email</p>
                             {isEditingEmail ? (
-                                <div>
+                                <form onSubmit={handleSaveEmail}>
                                     <input
                                         type="text"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
+                                        className={error?.email ? "error" : ""}
                                     />
-                                    <button onClick={handleSaveEmail} className="save-btn">Save</button>
-                                </div>
+                                    <div className="button-container">
+                                        <button type="submit" className="save-btn">Save</button>
+                                        <button
+                                            type="button"
+                                            className="cancel-btn"
+                                            onClick={() => {
+                                                setIsEditingEmail(false);
+                                                setError(null);
+                                            }}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                    {error?.email && <p className="error-message">{error.email}</p>}
+                                </form>
                             ) : (
                                 <div>
                                     <p>
-                                        {isEmailRevealed ? email : '*********@gmail.com'}
+                                        {isEmailRevealed ? email : '*********@example.com'}
                                         <span
                                             className="reveal"
                                             onClick={() => setIsEmailRevealed(!isEmailRevealed)}
@@ -341,6 +394,7 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
                                 </div>
                             )}
                         </div>
+
                     </div>
                 </div>
 
@@ -378,12 +432,24 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
                             <video ref={videoRef} className="video-feed" autoPlay muted />
                             <canvas ref={canvasRef} className="overlay-canvas"></canvas>
                         </div>
+                        <p className="face-detection-status">
+                            {isFaceDetected ? "Face detected! You can register now." : "No face detected. Please align your face in front of the camera."}
+                        </p>
                         <div className="button-container">
-                            <button onClick={handleRegisterFace} className="save-btn">Register Face</button>
-                            <button onClick={() => setIsFaceModalOpen(false)} className="cancel-btn">Cancel</button>
+                            <button
+                                onClick={handleRegisterFace}
+                                className="save-btn"
+                                disabled={!isFaceDetected}
+                            >
+                                Register Face
+                            </button>
+                            <button onClick={() => setIsFaceModalOpen(false)} className="cancel-btn">
+                                Cancel
+                            </button>
                         </div>
                     </div>
                 )}
+
 
                 {isPasswordModalOpen && (
                     <div className="password-modal">

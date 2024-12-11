@@ -227,13 +227,10 @@ button {
     transition: box-shadow 0.2s ease;
 }
 
-/* Highlight on hover for security sections */
 .security-section .authenticator-app:hover,
 .security-section .security-keys:hover {
     box-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
 }
-
-/* SettingPage.css */
 
 .settings-close-btn-container {
     position: absolute;
@@ -269,7 +266,6 @@ button {
     display: block;
 }
 
-/* Main styling remains the same */
 .settings-page {
     position: fixed;
     top: 0;
@@ -289,10 +285,6 @@ button {
     margin: 0 auto;
 }
 
-/* Additional styling for other elements remains the same as before */
-/* SettingPage.css */
-
-/* Styling for the save button */
 .save-btn {
     background-color: #5865f2;
     color: #fff;
@@ -302,6 +294,11 @@ button {
     cursor: pointer;
     margin-left: 10px;
     transition: background-color 0.2s ease;
+}
+
+.save-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 .save-btn:hover {
@@ -319,7 +316,6 @@ button {
     text-decoration: underline;
 }
 
-/* Log Out button styling */
 .logout-btn {
     background-color: #f04747;
     color: #fff;
@@ -856,4 +852,50 @@ button {
 
 .cancel-btn:hover {
     background-color: #d33c3c;
+}
+
+.error-message {
+    color: #ff4f4f;
+    font-size: 0.7em;
+    margin-top: 1px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.input-box.error input {
+    border-color: #ff4f4f !important;
+}
+
+.input-box.error .icon {
+    color: #ff4f4f;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-5px);
+    }
+
+    40% {
+        transform: translateX(5px);
+    }
+
+    60% {
+        transform: translateX(-5px);
+    }
+
+    80% {
+        transform: translateX(5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.input-box.error {
+    animation: shake 0.3s ease-in-out;
 }

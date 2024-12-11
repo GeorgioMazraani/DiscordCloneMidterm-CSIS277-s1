@@ -178,9 +178,8 @@ const LoginRegister = ({ onLogin }) => {
             if (error.response && error.response.data.errors) {
                 const errorMessages = {};
                 error.response.data.errors.forEach((err) => {
-                    errorMessages[err.path] = err.msg; // Map 'path' (field name) to 'msg' (error message)
+                    errorMessages[err.path] = err.msg;
                 });
-                console.log("test", errorMessages)
                 setError(errorMessages);
             } else {
                 toast.error("Failed to register. Please try again.");
