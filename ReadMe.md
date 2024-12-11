@@ -17,6 +17,21 @@ This project is a web-based chat application that mimics core functionalities of
 - **Server Customization**: Users can upload an icon for servers and change their name.
 - **Responsive Design**: Optimized for desktop and mobile use.
 
+## API Documentation
+
+This project includes comprehensive API documentation powered by **Swagger**. The Swagger UI is available for easy exploration and testing of all backend routes.
+
+### Accessing the API Documentation
+
+After running the backend server, the Swagger documentation can be accessed at:
+
+**URL**: [http://localhost:4000/api-docs](http://localhost:4000/api-docs)
+
+### Features of the Swagger Documentation
+- Lists all available API endpoints.
+- Provides detailed information about each endpoint, including request parameters and response formats.
+- Includes the ability to test API endpoints directly from the UI.
+
 ## Tech Stack
 
 - **Frontend**:
