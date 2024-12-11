@@ -230,6 +230,7 @@ const SettingsPage = ({ userId, onClose, onLogout }) => {
             await UserService.updateUser(userId, { username });
             console.log("Username updated successfully!");
             setIsEditingUsername(false);
+            window.location.reload();
         } catch (error) {
             if (error.response && error.response.data.errors) {
                 const errorMessages = {};
